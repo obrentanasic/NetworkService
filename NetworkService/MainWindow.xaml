@@ -1,0 +1,140 @@
+﻿<Window x:Class="NetworkService.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NetworkService"
+        xmlns:views="clr-namespace:NetworkService.Views"
+        xmlns:viewModels="clr-namespace:NetworkService.ViewModel"
+        mc:Ignorable="d"
+        Title="Simulator of infrastructure system" Height="800" Width="1400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="White"
+        >
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:NetworkEntitiesViewModel}">
+            <views:NetworkEntitiesView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:NetworkDisplayViewModel}">
+            <views:NetworkDisplayView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModels:MeasurementGraphViewModel}">
+            <views:MeasurementGraphView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Foreground="#333333" 
+                Margin="0 66 0 7.4" 
+                Text="Network Display" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                HorizontalAlignment="Center"
+                ></TextBlock>
+            <ContentControl 
+                Grid.Row="1" 
+                Content="{Binding AlwaysOnViewModel}"/>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <DockPanel 
+                Grid.Row="0" 
+                Margin="120 50 0 0">
+                <Menu
+                    FontFamily="Trebuchet MS"
+                    DockPanel.Dock="Top" 
+                    HorizontalAlignment="Left"  
+                    Background="White">
+                    <MenuItem 
+                        Cursor="Hand"
+                        ToolTip="Go to Network Entities"
+                        Margin="0 0 68 0" 
+                        Height="50" 
+                        Command="{Binding NavCommand}" 
+                        CommandParameter="1_Entities" 
+                        Padding="0">
+                        <MenuItem.Header>
+                            <Border 
+                                Background="DimGray"
+                                Height="50" 
+                                Width="220">
+                                <Border.Clip>
+                                    <RectangleGeometry 
+                                        RadiusX="8" 
+                                        RadiusY="8"
+                                        Rect="0,0,220,50" />
+                                </Border.Clip>
+                                <TextBlock 
+                                    Foreground="#fff" 
+                                    FontSize="20" 
+                                    FontWeight="Bold" 
+                                    Text="Network Entities" 
+                                    TextAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center" />
+                            </Border>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem 
+                        Cursor="Hand"
+                        ToolTip="Go to Measurement Graph"
+                        Height="50" 
+                        Command="{Binding NavCommand}" 
+                        CommandParameter="2_Graph" 
+                        Padding="0">
+                        <MenuItem.Header>
+                            <Border 
+                                Background="DimGray" 
+                                Height="50"
+                                Width="220">
+                                <Border.Clip>
+                                    <RectangleGeometry 
+                                        RadiusX="8" 
+                                        RadiusY="8" 
+                                        Rect="0,0,220,50" />
+                                </Border.Clip>
+                                
+                                <TextBlock 
+                                    Foreground="#fff" 
+                                    FontSize="18" 
+                                    FontWeight="Bold" 
+                                    Text="Measurement Graph" 
+                                    TextAlignment="Center" 
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center" />
+                            </Border>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </Menu>
+            </DockPanel>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="151*"/>
+                    <RowDefinition Height="199*"/>
+                    <RowDefinition Height="350*"/>
+                </Grid.RowDefinitions>
+                <ContentControl Content="{Binding CurrentViewModel}" Grid.RowSpan="3"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

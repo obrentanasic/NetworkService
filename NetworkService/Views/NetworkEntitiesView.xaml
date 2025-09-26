@@ -1,0 +1,310 @@
+﻿<UserControl x:Class="NetworkService.Views.NetworkEntitiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:fa5 ="http://schemas.fontawesome.com/icons/"
+             xmlns:local="clr-namespace:NetworkService.Views"
+             mc:Ignorable="d" 
+             Width="700" Height="700"
+             >
+    <UserControl.Resources>
+        <ControlTemplate 
+            x:Key="RoundedButtonTemplate" 
+            TargetType="Button">
+            <Border 
+                x:Name="buttonBorder"
+                CornerRadius="3" 
+                Background="{TemplateBinding Background}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger 
+                    Property="IsMouseOver" 
+                    Value="true">
+                    <Setter 
+                        TargetName="buttonBorder"
+                        Property="BorderBrush"
+                        Value="LightBlue" />
+                </Trigger>
+                <Trigger 
+                    Property="IsEnabled" 
+                    Value="False">
+                    <Setter 
+                        TargetName="buttonBorder"
+                        Property="Background" 
+                        Value="Gray" />
+                    <Setter 
+                        TargetName="buttonBorder"
+                        Property="BorderBrush"
+                        Value="DarkGray" />
+                    <Setter 
+                        Property="Opacity" 
+                        Value="0.5" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel 
+                    Orientation="Vertical" 
+                    Margin="120 20 0 30">
+                    <TextBlock  
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Margin="0 5" 
+                        Text="Add new entity:"
+                        Foreground="#333233"
+                        ></TextBlock>
+                    <StackPanel 
+                        Orientation="Horizontal" >
+                        <TextBlock  
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Margin="0 0 13 0" 
+                            Text="Type:"
+                            Foreground="#333233"
+                            ></TextBlock>
+                        <ComboBox
+                            x:Name="comboBoxEntityType" 
+                            ItemsSource="{Binding ComboBoxItems}" 
+                            SelectedItem="{Binding CurrentEntityType.Type, Mode=TwoWay}" 
+                            Width="120"
+                            Cursor="Hand"
+                            ToolTip="Choose entity type"
+                            Height="30"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Margin="0,0,28,0"/>
+                        <Button
+                            x:Name="AddEntityBTN"
+                            Margin="0 0 0 0"
+                            Cursor="Hand"
+                            ToolTip="Add new entity"
+                            Content="Add entity"
+                            FontWeight="Bold"
+                            Width="80" 
+                            Height="30"
+                            Foreground="#fff"
+                            Background="DimGray"
+                            BorderBrush="Black"
+                            HorizontalAlignment="Left"
+                            Command="{Binding AddEntityCommand}"
+                            Template="{StaticResource RoundedButtonTemplate}" 
+                            ></Button>
+                    </StackPanel>
+                    <TextBlock  
+                        Foreground="Red" 
+                        Text="{Binding ErrorMSg}"
+                        ></TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="95 20 0 30">
+                    <TextBlock  
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Margin="0 5" 
+                        Text="Delete entity:" 
+                        Foreground="#333233"
+                        ></TextBlock>
+                    <Button
+                        x:Name="DeleteEntityBTN"
+                        Margin="0 0 0 0"
+                        Content="Delete entity"
+                        FontWeight="Bold"
+                        Cursor="Hand"
+                        ToolTip="Delete entity"
+                        Width="80" 
+                        Height="30" 
+                        HorizontalAlignment="Center"
+                        Command="{Binding DeleteEntityCommand}"
+                        Template="{StaticResource RoundedButtonTemplate}"
+                        Foreground="White"
+                        Background="#333333"
+                        BorderBrush="Black"
+                        ></Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel 
+                Orientation="Vertical" 
+                Margin="120 0 0 0">
+                <DataGrid 
+                    x:Name="dataGridEntities" 
+                    ItemsSource="{Binding EntitiesToShow}" 
+                    SelectedItem="{Binding SelectedEntity}" 
+                    Background="WhiteSmoke"
+                    BorderBrush="#000"
+                    BorderThickness="0.5"
+                    Height="300" 
+                    Width="510"
+                    HorizontalAlignment="Left" 
+                    Margin="0,5,0,0" 
+                    RowHeight="20" 
+                    IsReadOnly="True" 
+                    SelectionMode="Single" 
+                    AutoGenerateColumns="False" 
+                    CanUserAddRows="False" 
+                    CanUserReorderColumns="False" 
+                    CanUserResizeColumns="False" 
+                    VerticalScrollBarVisibility="Hidden" 
+                    ScrollViewer.CanContentScroll="False">
+
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="Background" Value="#B5BAC1"/>
+                            <Setter Property="Height" Value="20"/>
+                            <Setter Property="BorderBrush" Value="#000" />
+                            <Setter Property="BorderThickness" Value="1" />
+                        </Style>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridCell">
+                                        <Grid>
+                                            <ContentPresenter 
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Background" Value="WhiteSmoke" />
+                            <Setter Property="Foreground" Value="#333333" />
+                            <Setter Property="BorderBrush" Value="#000" />
+                            <Setter Property="BorderThickness" Value="0.4" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Foreground" Value="Black" />
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Type.Type}" Width="*"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+            <StackPanel 
+                Orientation="Horizontal" 
+                Margin="120 20 0 0">
+                <TextBlock 
+                    VerticalAlignment="Center" 
+                    FontWeight="Bold" 
+                    Text="Search by:" 
+                    FontSize="20"
+                    Margin="0 0 15 0"
+                    Foreground="#333333"
+                    ></TextBlock>
+                <StackPanel 
+                    Margin="0 0 5 0"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center">
+                    <RadioButton 
+                        Foreground="#949BA4"
+                        IsChecked="{Binding IsNameRBSelected, Mode=TwoWay}" 
+                        x:Name="nameRB"
+                        Cursor="Hand"
+                        Margin="0 0 10 0"
+                        >Name</RadioButton>
+                    <RadioButton 
+                        Foreground="#949BA4" 
+                        IsChecked="{Binding IsTypeRBSelected, Mode=TwoWay}" 
+                        x:Name="typeRB"
+                        Cursor="Hand"
+                        >Type</RadioButton>
+                </StackPanel>
+                <ComboBox 
+                    ItemsSource="{Binding SearchedHistory}" 
+                    Text="{Binding SearchBox, Mode=TwoWay}" 
+                    x:Name="SearchBox"
+                    ToolTip="Search box"
+                    Height="30" 
+                    Width="130" 
+                    HorizontalAlignment="Left" 
+                    IsEditable="True" 
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"
+                    ></ComboBox>
+                <Button 
+                    Command="{Binding SearchEntityCommand}" 
+                    Height="30"
+                    FontWeight="Bold"
+                    Cursor="Hand"
+                    ToolTip="Search table"
+                    Width="87" 
+                    HorizontalAlignment="Left" 
+                    Margin="10 0 0 0" 
+                    Template="{StaticResource RoundedButtonTemplate}" 
+                    Content="Search"
+                    Foreground="#fff"
+                    Background="gray"
+                    BorderBrush="Black"
+                    ></Button>
+                <Button 
+                    Command="{Binding SaveSearchCommand}" 
+                    Height="30" 
+                    Width="43"
+                    Cursor="Hand"
+                    ToolTip="Save search"
+                    HorizontalAlignment="Left" 
+                    Foreground="#fff"
+                    Background="gray"
+                    BorderBrush="Black"
+                    Margin="10 0 0 0" 
+                    Template="{StaticResource RoundedButtonTemplate}" >
+                        <fa5:SvgAwesome
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="#fff"
+                        Icon="Solid_Check"/>
+                </Button>
+                <Button 
+                    Command="{Binding RefreshEntityCommand}" 
+                    Height="30" 
+                    Width="43"
+                    Cursor="Hand"
+                    ToolTip="Refresh table"
+                    HorizontalAlignment="Left" 
+                    Foreground="#fff"
+                    Background="gray"
+                    BorderBrush="Black"
+                    Margin="10 0 0 0" 
+                    Template="{StaticResource RoundedButtonTemplate}" >
+                    <fa5:SvgAwesome
+                        Height="15"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="#fff"
+                        Icon="Solid_Retweet"/>
+                </Button>
+            </StackPanel>
+        </StackPanel>         
+    </Grid>
+</UserControl>
