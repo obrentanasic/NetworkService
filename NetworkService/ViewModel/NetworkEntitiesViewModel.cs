@@ -189,8 +189,10 @@ namespace NetworkService.ViewModel
             try
             {
                 
-                string simulatorRelativePath = @"..\..\..\..\..\MeteringSimulator\MeteringSimulator\obj\Debug\MeteringSimulator.exe";
+                string simulatorRelativePath = @"..\..\..\MeteringSimulator\MeteringSimulator\obj\Debug\MeteringSimulator.exe";
+               
                 string simulatorPath = System.IO.Path.GetFullPath(simulatorRelativePath);
+                MessageBox.Show(simulatorPath);
 
 
                 // Kill
