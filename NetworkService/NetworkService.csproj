@@ -133,6 +133,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="PSI IUIS - PZ2 - specifikacija.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
